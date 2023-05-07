@@ -1,0 +1,154 @@
+1. Write a JSP program to display the details of Patient (PNo, PName, Address, age,
+disease) in tabular form on browser. [15 M]
+
+first create a jsp file :
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Patient Details</title>
+</head>
+<body>
+    <h2>Patient Details</h2>
+    <table>
+        <tr>
+            <th>Patient Number</th>
+            <th>Patient Name</th>
+            <th>Address</th>
+            <th>Age</th>
+            <th>Disease</th>
+        </tr>
+        <%-- Create a list of patients and populate it --%>
+        <% List<Patient> patients = new ArrayList<>(); %>
+        <% patients.add(new Patient(1, "John Doe", "123 Main St", 35, "Fever")); %>
+        <% patients.add(new Patient(2, "Jane Smith", "456 Elm St", 42, "Cough")); %>
+        <% patients.add(new Patient(3, "David Johnson", "789 Oak St", 28, "Headache")); %>
+
+        <%-- Iterate over the patient list and display details in the table --%>
+        <% for (Patient patient : patients) { %>
+            <tr>
+                <td><%= patient.getPNo() %></td>
+                <td><%= patient.getPName() %></td>
+                <td><%= patient.getAddress() %></td>
+                <td><%= patient.getAge() %></td>
+                <td><%= patient.getDisease() %></td>
+            </tr>
+        <% } %>
+    </table>
+</body>
+</html>
+
+
+
+create patient.java :
+
+public class Patient {
+    private int pNo;
+    private String pName;
+    private String address;
+    private int age;
+    private String disease;
+
+    public Patient(int pNo, String pName, String address, int age, String disease) {
+        this.pNo = pNo;
+        this.pName = pName;
+        this.address = address;
+        this.age = age;
+        this.disease = disease;
+    }
+
+    public int getPNo() {
+        return pNo;
+    }
+
+    public void setPNo(int pNo) {
+        this.pNo = pNo;
+    }
+
+    public String getPName() {
+        return pName;
+    }
+
+    public void setPName(String pName) {
+        this.pName = pName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public int getAge() {
+        return age;
+    }
+
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    public String getDisease() {
+        return disease;
+    }
+
+    public void setDisease(String disease) {
+        this.disease = disease;
+    }
+}
+
+
+
+
+
+2. Write a Java program to create LinkedList of String objects and perform the following:
+i. Add element at the end of the list
+ii. Delete first element of the list
+iii. Display the contents of list in reverse order [15 M]
+
+
+
+import java.util.LinkedList;
+import java.util.Scanner;
+
+public class LinkedListExample {
+    public static void main(String[] args) {
+        LinkedList<String> linkedList = new LinkedList<>();
+
+        // Create a Scanner object to read user input
+        Scanner scanner = new Scanner(System.in);
+
+        // Ask the user for the number of objects
+        System.out.print("Enter the number of objects to add: ");
+        int count = scanner.nextInt();
+        scanner.nextLine(); // Consume the newline character
+
+        // Prompt the user to enter objects
+        System.out.println("Enter the objects:");
+
+        for (int i = 1; i <= count; i++) {
+            String input = scanner.nextLine();
+            linkedList.add(input);
+        }
+
+        // Display the original list
+        System.out.println("Original List: " + linkedList);
+
+        // Delete the first element of the list
+        linkedList.removeFirst();
+
+        // Display the updated list
+        System.out.println("List after deleting the first element: " + linkedList);
+
+        // Display the contents of the list in reverse order
+        System.out.println("List in reverse order:");
+        for (int i = linkedList.size() - 1; i >= 0; i--) {
+            System.out.println(linkedList.get(i));
+        }
+
+        // Close the scanner
+        scanner.close();
+    }
+}

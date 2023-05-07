@@ -1,0 +1,85 @@
+1. Write a java program to accept ‘N’ integers from a user. Store and display integers in
+sorted order having proper collection class. The collection should not accept duplicate
+elements.
+[15 M]
+
+import java.util.*;
+
+public class SortIntegers {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the number of integers (N): ");
+        int n = scanner.nextInt();
+
+        Set<Integer> numbers = new HashSet<>();
+
+        System.out.println("Enter " + n + " integers:");
+        for (int i = 0; i < n; i++) {
+            int num = scanner.nextInt();
+            numbers.add(num);
+        }
+
+        List<Integer> sortedNumbers = new ArrayList<>(numbers);
+        Collections.sort(sortedNumbers);
+
+        System.out.println("Integers in sorted order:");
+        for (int num : sortedNumbers) {
+            System.out.print(num + " ");
+        }
+
+        scanner.close();
+    }
+}
+
+
+
+2. Write a Multithreading program in java to display the number’s between 1 to 100
+continuously in a TextField by clicking on button. (Use Runnable Interface).
+[15 M]
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
+public class NumberDisplay implements Runnable {
+    private JTextField textField;
+
+    public NumberDisplay(JTextField textField) {
+        this.textField = textField;
+    }
+
+    @Override
+    public void run() {
+        for (int i = 1; i <= 100; i++) {
+            try {
+                SwingUtilities.invokeAndWait(() -> textField.setText(String.valueOf(i)));
+                Thread.sleep(500);
+            } catch (InterruptedException | InvocationTargetException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("Number Display");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        JTextField textField = new JTextField(10);
+        textField.setEditable(false);
+        JButton startButton = new JButton("Start");
+        startButton.addActionListener(e -> {
+            NumberDisplay numberDisplay = new NumberDisplay(textField);
+            Thread thread = new Thread(numberDisplay);
+            thread.start();
+        });
+
+        JPanel panel = new JPanel();
+        panel.add(textField);
+        panel.add(startButton);
+
+        frame.add(panel);
+        frame.pack();
+        frame.setVisible(true);
+    }
+}

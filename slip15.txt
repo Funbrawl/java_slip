@@ -1,0 +1,71 @@
+1. Write a java program to display name and priority of a Thread. [15 M]
+
+public class ThreadInfoExample {
+    public static void main(String[] args) {
+        // Create a thread object
+        Thread thread = new Thread();
+
+        // Display thread name and priority
+        System.out.println("Thread Name: " + thread.getName());
+        System.out.println("Thread Priority: " + thread.getPriority());
+    }
+}
+
+
+2. Write a SERVLET program which counts how many times a user has visited a web
+page. If user is visiting the page for the first time, display a welcome message. If the
+user is revisiting the page, display the number of times visited. (Use Cookie)
+[15 M]
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/VisitCounterServlet")
+public class VisitCounterServlet extends HttpServlet {
+    private static final long serialVersionUID = 1L;
+
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        // Get the array of cookies from the request
+        Cookie[] cookies = request.getCookies();
+
+        // Check if the cookies array is not null
+        if (cookies != null) {
+            // Search for the "visitCount" cookie
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("visitCount")) {
+                    int visitCount = Integer.parseInt(cookie.getValue());
+                    visitCount++;
+                    cookie.setValue(String.valueOf(visitCount));
+                    response.addCookie(cookie);
+
+                    // Display the number of times visited
+                    PrintWriter out = response.getWriter();
+                    out.println("<html><body>");
+                    out.println("<h1>Welcome Back!</h1>");
+                    out.println("<p>You have visited this page " + visitCount + " times.</p>");
+                    out.println("</body></html>");
+                    return;
+                }
+            }
+        }
+
+        // If "visitCount" cookie is not found or it's the first visit
+        // Create a new cookie and set its value to 1
+        Cookie newCookie = new Cookie("visitCount", "1");
+        response.addCookie(newCookie);
+
+        // Display the welcome message
+        PrintWriter out = response.getWriter();
+        out.println("<html><body>");
+        out.println("<h1>Welcome to the Page!</h1>");
+        out.println("<p>This is your first visit.</p>");
+        out.println("</body></html>");
+    }
+}

@@ -1,0 +1,78 @@
+1. Write a java program to display name and priority of a Thread. [15 M]
+
+public class ThreadInfoExample {
+    public static void main(String[] args) {
+        // Create a thread object
+        Thread thread = new Thread();
+
+        // Display thread name and priority
+        System.out.println("Thread Name: " + thread.getName());
+        System.out.println("Thread Priority: " + thread.getPriority());
+    }
+}
+
+
+2. Write a SERVLET program in java to accept details of student (SeatNo, Stud_Name,
+Class, Total_Marks). Calculate percentage and grade obtained and display details on
+page. [15 M]
+
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@WebServlet("/StudentDetailsServlet")
+public class StudentDetailsServlet extends HttpServlet {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // Read the student details from the request parameters
+        int seatNo = Integer.parseInt(request.getParameter("seatNo"));
+        String studentName = request.getParameter("studentName");
+        String className = request.getParameter("className");
+        int totalMarks = Integer.parseInt(request.getParameter("totalMarks"));
+
+        // Calculate the percentage
+        double percentage = (totalMarks / 500.0) * 100;
+
+        // Determine the grade based on the percentage
+        String grade;
+        if (percentage >= 90) {
+            grade = "A+";
+        } else if (percentage >= 80) {
+            grade = "A";
+        } else if (percentage >= 70) {
+            grade = "B";
+        } else if (percentage >= 60) {
+            grade = "C";
+        } else if (percentage >= 50) {
+            grade = "D";
+        } else {
+            grade = "Fail";
+        }
+
+        // Set the response content type
+        response.setContentType("text/html");
+
+        // Get the PrintWriter object to write the response
+        PrintWriter out = response.getWriter();
+
+        // Write the HTML response
+        out.println("<html>");
+        out.println("<head>");
+        out.println("<title>Student Details</title>");
+        out.println("</head>");
+        out.println("<body>");
+        out.println("<h1>Student Details</h1>");
+        out.println("<p>Seat No: " + seatNo + "</p>");
+        out.println("<p>Student Name: " + studentName + "</p>");
+        out.println("<p>Class: " + className + "</p>");
+        out.println("<p>Total Marks: " + totalMarks + "</p>");
+        out.println("<p>Percentage: " + percentage + "%</p>");
+        out.println("<p>Grade: " + grade + "</p>");
+        out.println("</body>");
+        out.println("</html>");
+    }
+}
